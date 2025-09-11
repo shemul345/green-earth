@@ -26,6 +26,42 @@ const loadCategory = () => {
         .then(data => displayCategory(data.categories))
 };
 
+const loadPlantDetails = (id) => {
+    fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
+        .then(res => res.json())
+        .then(data => displayPlantDetails(data.plants));
+    
+};
+// // "id": 2,
+// "image": "https://i.ibb.co.com/WNbbx3rn/guava-min.jpg",
+// "name": "Guava Tree",
+// "description": "A hardy fruit tree that grows in various climates, yielding guavas packed with Vitamin C. Its low maintenance nature makes it a favorite for home gardens.",
+// "category": "Fruit Tree",
+// "price": 350
+const displayPlantDetails = (details) => {
+    const plantDetailsContainer = document.getElementById("plant-details-container");
+    plantDetailsContainer.innerHTML = `
+                            <div class="p-5">
+                                <img class="rounded-xl w-full h-48" src="${details.image}" alt="">
+                            </div>
+                            <div class="mt-2">
+                                <h2 class="text-2xl font-bold">${details.name}</h2>
+                                <p class="mt-3">${details.description}</p>
+                            </div>
+                            <div class="mt-3 flex justify-between items-center">
+                                <p class="btn bg-green-100 rounded-3xl text-green-700">
+                                ${details.category}</p>
+                                <p class="text-xl font-bold">$<span>${details.price}</span></p>
+                            </div>
+                            <div class="">
+                                <div class="card-actions justify-end">
+                                    <button class="bg-green-700 w-full rounded-3xl py-3 text-white text-lg font-semibold mt-4">Add to Cart</button>
+                                </div>
+                            </div>`;
+    document.getElementById("plant_modal").showModal();
+
+};
+
 const displayCategory = (categories) => {
     const categoryContainer = document.getElementById("category-container");
     categoryContainer.innerHTML = "";
@@ -42,7 +78,6 @@ const displayCategory = (categories) => {
 
     };
 };
-
 
 const displayPlants = (plants) => {
     
@@ -64,11 +99,11 @@ const displayPlants = (plants) => {
         plantDiv.innerHTML = `
         <div class="card bg-base-100 w-82 shadow-sm">
                         <figure class="p-5">
-                            <img class="rounded-xl h-52 w-full" src="${plant.image}" />
+                            <img onclick="loadPlantDetails(${plant.id})" class="rounded-xl h-52 w-full" src="${plant.image}" />
                         </figure>
                         <div class="card-body mt-[-30px]">
-                            <h2 class="card-title">${plant.name}</h2>
-                            <p>${limitWords(plant.description, 18)}</p>
+                            <h2 onclick="loadPlantDetails(${plant.id})" class="card-title">${plant.name}</h2>
+                            <p onclick="loadPlantDetails(${plant.id})">${limitWords(plant.description, 18)}</p>
                             <div class="flex justify-between">
                                 <button class="btn bg-green-100 rounded-3xl text-green-700">${plant.category}</button>
                                 <button class="text-xl font-bold">$<span>${plant.price}</span></button>
