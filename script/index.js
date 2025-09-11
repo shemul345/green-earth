@@ -4,29 +4,71 @@ const loadPlants = () => {
         .then(data => displayPlants(data.plants));
 };
 
-// "id": 1,
-// "image": "https://i.ibb.co.com/cSQdg7tf/mango-min.jpg",
-// "name": "Mango Tree",
-// "description": "A fast-growing tropical tree that produces delicious, juicy mangoes during summer. Its dense green canopy offers shade, while its sweet fruits are rich in vitamins and minerals.",
-// "category": "Fruit Tree",
-//     "price": 500
+const loadCategoryPlants = (id) => {
+    fetch(`https://openapi.programming-hero.com/api/category/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            removeActive();
+            const clickBtn = document.getElementById(`category-btn-${id}`);
+            clickBtn.classList.add("active");
+            displayPlants(data.plants)
+        });
+}
+
+const removeActive = () => {
+    const categoryBtn = document.querySelectorAll(".category-btn");
+    categoryBtn.forEach(btn => btn.classList.remove("active"));
+};
+
+const loadCategory = () => {
+    fetch("https://openapi.programming-hero.com/api/categories")
+        .then(res => res.json())
+        .then(data => displayCategory(data.categories))
+};
+
+const displayCategory = (categories) => {
+    const categoryContainer = document.getElementById("category-container");
+    categoryContainer.innerHTML = "";
+
+    for (let category of categories) {
+        // console.log(category);
+        const btnDiv = document.createElement("div");
+        btnDiv.innerHTML = `
+        <button id="category-btn-${category.id}"
+        onclick="loadCategoryPlants(${category.id})"
+         class="text-left w-full px-2 py-2 hover:bg-green-700 hover:text-white rounded-lg category-btn">${category.category_name}</button>`;
+        // console.log(btnDiv);
+        categoryContainer.append(btnDiv);
+
+    };
+};
+
 
 const displayPlants = (plants) => {
     
     const plantsContainer = document.getElementById("plants-container");
     plantsContainer.innerHTML = "";
 
+     // word limit function
+    const limitWords = (text, limit) => {
+        const words = text.split(" ");
+        if (words.length > limit) {
+            return words.slice(0, limit).join(" ") + "...";
+        }
+        return text;
+    };
+
     for (let plant of plants) {
       
         const plantDiv = document.createElement("div");
         plantDiv.innerHTML = `
-        <div class="card bg-base-100 w-92 shadow-sm">
+        <div class="card bg-base-100 w-82 shadow-sm">
                         <figure class="p-5">
                             <img class="rounded-xl h-52 w-full" src="${plant.image}" />
                         </figure>
                         <div class="card-body mt-[-30px]">
                             <h2 class="card-title">${plant.name}</h2>
-                            <p>${plant.description}</p>
+                            <p>${limitWords(plant.description, 18)}</p>
                             <div class="flex justify-between">
                                 <button class="btn bg-green-100 rounded-3xl text-green-700">${plant.category}</button>
                                 <button class="text-xl font-bold">$<span>${plant.price}</span></button>
@@ -42,5 +84,6 @@ const displayPlants = (plants) => {
     };
 
 };
+loadCategory();
 
 loadPlants();

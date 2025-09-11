@@ -10,6 +10,9 @@
     <!-- daisyUI and tailwind cdn -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- stylesheet -->
+     <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
@@ -68,16 +71,22 @@
         <!-- trees section start -->
          <section class="bg-green-50 mb-10">
             <h4 class="text-2xl font-semibold text-center pt-24 pb-8">Choose Your Trees</h4>
-            <div class="flex gap-5 justify-center items-center max-w-11/12 mx-auto">
-                <div class="w-1/12">sdgsd</div>
-
-
-                <div id="plants-container" class="w-10/12 grid grid-cols-1 md:w-1/2 lg:grid-cols-2 lg:w-3/4 xl:w-full xl:grid-cols-3 gap-y-5 gap-x-3">
+            <div class="flex gap-5 justify-center max-w-11/12 mx-auto">
+                <div class="w-2/12">
+                    <h2 class="text-2xl font-semibold">Categories</h2>
+                    <button onclick="loadPlants()" class="mt-5 text-left w-full px-2 py-2 hover:bg-green-700 hover:text-white rounded-lg">All
+                        Trees</button>
+                    <div id="category-container"></div>
                     
                 </div>
 
 
-                <div class="w-1/12 bg-white">fdgsd</div>
+                <div id="plants-container" class="w-8/12 grid grid-cols-1 md:w-1/2 lg:grid-cols-2 lg:w-3/4 xl:w-full xl:grid-cols-3 gap-y-5 gap-x-3">
+                    
+                </div>
+
+
+                <div class="w-2/12 bg-white">fdgsd</div>
             </div>
             
          </section>
