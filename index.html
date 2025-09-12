@@ -7,6 +7,11 @@
     <title>Green Earth|Save nature, save our future</title>
     <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
 
+    <!-- font awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- daisyUI and tailwind cdn -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -69,7 +74,7 @@
         <!-- banner section end -->
 
         <!-- trees section start -->
-         <section class="bg-green-50 mb-10">
+         <section class="bg-green-50">
             <h4 class="text-2xl font-semibold text-center pt-24 pb-8">Choose Your Trees</h4>
             <div class="flex gap-5 justify-center max-w-11/12 mx-auto">
                 <div class="w-2/12">
@@ -102,12 +107,48 @@
                         </div>
                 </dialog>
 
+                <!-- cart start -->
+                <div class="w-2/12 bg-white p-3 rounded-lg shadow-md outline">
+                    <h2 class="text-2xl font-bold mb-4 border bg-green-700 text-white p-1 rounded-tl-lg rounded-tr-lg text-center">Your Cart</h2>
+                    <div id="cart-container">
+                        
+                    </div>
+                    <hr class="mt-2 w-full">
+                    <ul id="cart-list" class="list-disc pl-6"></ul>
+                    <div class="flex justify-between">
+                        <p class="text-lg font-semibold">Total:</p>
+                        <span id="total-price"></span>
+                    </div>
+                </div>
 
-                <div class="w-2/12 bg-white">fdgsd</div>
+
+                <!-- cart start -->
             </div>
             
          </section>
         <!-- trees section end -->
+
+        <!-- campaign section start -->
+         <section class="bg-green-50 pt-28">
+            <h3 class="text-2xl font-semibold text-center">About the Campaign</h3>
+            <div class="flex justify-between items-center max-w-8/12 mx-auto mt-10">
+                <div class="flex-1">
+                    <img class="h-96" src="./assets/about.png" alt="">
+                </div>
+                <div class="flex-1">
+                <ul style="list-style-type: disc;">
+                    <li>Restoration of natural habitats</li>
+                    <li>Improvement of air quality</li>
+                    <li>Support for local communities</li>
+                </ul>
+                </div>
+            </div>
+         </section>
+        <!-- campaign section end -->
+
+
+        
+
     </main>
     <footer>
 

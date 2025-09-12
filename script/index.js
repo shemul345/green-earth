@@ -1,3 +1,6 @@
+const plantsContainer = document.getElementById("plants-container");
+const cartContainer = document.getElementById("cart-container")
+
 const loadPlants = () => {
     fetch("https://openapi.programming-hero.com/api/plants")
         .then(res => res.json())
@@ -32,12 +35,6 @@ const loadPlantDetails = (id) => {
         .then(data => displayPlantDetails(data.plants));
     
 };
-// // "id": 2,
-// "image": "https://i.ibb.co.com/WNbbx3rn/guava-min.jpg",
-// "name": "Guava Tree",
-// "description": "A hardy fruit tree that grows in various climates, yielding guavas packed with Vitamin C. Its low maintenance nature makes it a favorite for home gardens.",
-// "category": "Fruit Tree",
-// "price": 350
 const displayPlantDetails = (details) => {
     const plantDetailsContainer = document.getElementById("plant-details-container");
     plantDetailsContainer.innerHTML = `
@@ -84,7 +81,7 @@ const displayPlants = (plants) => {
     const plantsContainer = document.getElementById("plants-container");
     plantsContainer.innerHTML = "";
 
-     // word limit function
+     
     const limitWords = (text, limit) => {
         const words = text.split(" ");
         if (words.length > limit) {
@@ -101,7 +98,7 @@ const displayPlants = (plants) => {
                         <figure class="p-5">
                             <img onclick="loadPlantDetails(${plant.id})" class="rounded-xl h-52 w-full" src="${plant.image}" />
                         </figure>
-                        <div class="card-body mt-[-30px]">
+                        <div id="${plant.id}" class="card-body mt-[-30px]">
                             <h2 onclick="loadPlantDetails(${plant.id})" class="card-title">${plant.name}</h2>
                             <p onclick="loadPlantDetails(${plant.id})">${limitWords(plant.description, 18)}</p>
                             <div class="flex justify-between">
@@ -109,16 +106,92 @@ const displayPlants = (plants) => {
                                 <button class="text-xl font-bold">$<span>${plant.price}</span></button>
                             </div>
                             <div class="card-actions justify-end">
-                                <button class="bg-green-700 w-full rounded-3xl py-3 text-white text-lg font-semibold mt-4">Add to Cart</button>
+                                <button id="cart-btn" onclick="" class="bg-green-700 w-full rounded-3xl py-3 text-white text-lg font-semibold mt-4">Add to Cart</button>
                             </div>
                         </div>
                     </div>`;
+        
+        
         
         plantsContainer.append(plantDiv);
 
     };
 
 };
+
+let carts = [];
+plantsContainer.addEventListener("click", (e) => {
+    // console.log(e.target.innerText);
+    if(e.target.innerText === "Add to Cart"){
+         handleCart(e)
+    };
+});
+
+
+const handleCart = (e) => {
+    const plantName = e.target.parentNode.parentNode.children[0].innerText;
+    const plantId = e.target.parentNode.parentNode.id;
+    const price = parseFloat(e.target.parentNode.parentNode.querySelector("span").innerText);
+
+    const existing = carts.find(cart => cart.id === plantId);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        carts.push({
+            title: plantName,
+            id: plantId,
+            price: price,
+            quantity: 1
+        });
+
+        
+    }
+    
+    showCarts(carts);
+};
+
+
+
+
+const showCarts = (carts) => {
+    cartContainer.innerHTML = "";
+    let total = 0;
+    carts.forEach(cart => {
+        const itemTotal = cart.price * cart.quantity;
+        total += itemTotal;
+        cartContainer.innerHTML += `
+        <div class="flex justify-between bg-green-100 p-3 rounded-xl mb-2">
+            <div class="">
+                <h2 class="text-xl font-semibold ">${cart.title}</h2>
+                <p>$<span>${cart.price}</span> * <span>${cart.quantity}</span> = $<span>${itemTotal}</span></p>
+            </div>
+            <div class="">
+                <button onclick="cartDelete('${cart.id}')" class=""><i class="fa-solid fa-circle-xmark text-red-500"></i></button>
+            </div>
+        </div>
+        `;
+    });
+
+    const totalPriceSpan = document.getElementById("total-price");
+        if (totalPriceSpan) {
+            totalPriceSpan.innerHTML = `
+            <p class="text-lg font-semibold">$<span">${parseFloat(total)}</span></p>
+            `;
+    }
+
+    document.querySelector(".flex.justify-between p span").innerText = total;
+};
+
+
+
+const cartDelete = (cartId) => {
+    const filteredCarts = carts.filter(cart => cart.id !== cartId);
+   carts = filteredCarts
+   showCarts(filteredCarts)
+
+} 
+
+
 loadCategory();
 
 loadPlants();
