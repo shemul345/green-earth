@@ -2,3 +2,7 @@
     background-color: green;
     color: white;
 }
+
+.impact-card:hover{
+    transition: all 1s;
+}
